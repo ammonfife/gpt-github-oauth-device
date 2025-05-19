@@ -1,83 +1,72 @@
 {
-  "openapi": "3.0",
+  "openapi": "3.1.0",
   "info": {
-    "title": "GitHub CLI Agent",
-    "version": "1.0.0",
-    "description": "Secure access to GitHub APIs via OAuth device code flow for Custom GPT Actions"
+    "title": "Oauth Device Flow API",
+    "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://github.com",
-      "description": "GitHub Official DFF auth endpoint"
+      "url": "https://github.com"
     }
   ],
   "paths": {
     "/login/device/code": {
       "post": {
-        "summary": "Initiates the GitHub device flow",
+        "operationId": "postLoginDeviceCode",
+        "summary": "Start OAuth Device Flow",
         "requestBody": {
+          "required": ["client_id", "scope"],
           "content": {
-            "application/json": {
+            "application/xwwp-form-urlencoded": {
               "schema": {
                 "type": "object",
-                "required": ["client_id", "scope"],
                 "properties": {
-                  "client_id": {"type":"string"},
-                  "scope": {"type":"string"}
+                  "client_id": {
+                    "type": "string",
+                    "default": "Ov23liGeWEdEtHlNOjBM"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "example": "repo read:org user"
+                  }
                 }
-              }
+            }
           }
         },
         "responses": {
           "200": {
-            "description": "Returns device_code, verification_uri, user_code",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["user_code", "verification_uri", "device_code"],
-                  "properties": {
-                    "user_code": {"type": "string"},
-                    "verification_uri": {"type": "string"},
-                    "device_code": {"type": "string"}
-                  }
-                }
-              }
+            "description": "Device code issued"
           }
         }
       }
     },
     "/login/oauth/access_token": {
       "post": {
-        "summary": "Exchanges device_code for an access_token",
+        "operationId": "postLoginOauthAccessToken",
+        "summary": "Exchange code for access token",
         "requestBody": {
+          "required": ["client_id", "device_code", "grant_type"],
           "content": {
-            "application/json": {
+            "application/xwwp-form-urlencoded": {
               "schema": {
                 "type": "object",
-                "required": ["client_id", "device_code", "grant_type"],
                 "properties": {
-                  "client_id": {"type": "string"},
+                  "client_id": {
+                    "type": "string",
+                    "default": "Ov23liGeWEdEtHlNOjBM"
+                  },
                   "device_code": {"type": "string"},
-                  "grant_type": {"type": "string"}
+                  "grant_type": {
+                    "type": "string",
+                    "example": "urn:ietf:params:oauth:grant-type:device_code"
+                  }
                 }
-              }
+            }
           }
         },
         "responses": {
           "200": {
-            "description": "Gives an access_token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "access_token": {"type": "string"},
-                    "token_type": {"type": "string"},
-                    "expires": {"type": "number"}
-                  }
-                }
-              }
+            "description": "Access token issued"
           }
         }
       }
