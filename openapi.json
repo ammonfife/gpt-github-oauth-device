@@ -25,19 +25,12 @@
                     "type": "string",
                     "default": "Ov23liGeWEdEtHlNOjBM"
                   },
-                  "scope": {
-                    "type": "string",
-                    "example": "repo read:org user"
-                  }
+                  "scope": {"type": "string","example": "repo read:org user"}
                 }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Device code issued"
-          }
-        }
+        "responses": {"200": {"description": "Device code issued"}}
       }
     },
     "/login/oauth/access_token": {
@@ -51,24 +44,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "client_id": {
-                    "type": "string",
-                    "default": "Ov23liGeWEdEtHlNOjBM"
-                  },
+                  "client_id": {"type": "string","default": "Ov23liGeWEdEtHlNOjBM"},
                   "device_code": {"type": "string"},
-                  "grant_type": {
-                    "type": "string",
-                    "example": "urn:ietf:params:oauth:grant-type:device_code"
-                  }
+                  "grant_type": {"type": "string","example": "urn:ietf:params:oauth:grant-type:device_code"}
                 }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Access token issued"
-          }
-        }
+        "responses": {"200": {"description": "Access token issued"}}
       }
     }
   }
