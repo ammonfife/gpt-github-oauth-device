@@ -1,0 +1,58 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Oauth Device Flow API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://github.com"
+    }
+  ],
+  "paths": {
+    "/login/device/code": {
+      "post": {
+        "operationId": "postLoginDeviceCode",
+        "summary": "Start OAuth Device Flow",
+        "requestBody": {
+          "required": ["client_id", "scope"],
+          "content": {
+            "application/xwwp-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "default": "Ov23liGeWEdEtHlNOjBM"
+                  },
+                  "scope": {"type": "string","example": "repo read:org user"}
+                }
+            }
+          }
+        },
+        "responses": {"200": {"description": "Device code issued"}}
+      }
+    },
+    "/login/oauth/access_token": {
+      "post": {
+        "operationId": "postLoginOauthAccessToken",
+        "summary": "Exchange code for access token",
+        "requestBody": {
+          "required": ["client_id", "device_code", "grant_type"],
+          "content": {
+            "application/xwwp-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {"type": "string","default": "Ov23liGeWEdEtHlNOjBM"},
+                  "device_code": {"type": "string"},
+                  "grant_type": {"type": "string","example": "urn:ietf:params:oauth:grant-type:device_code"}
+                }
+            }
+          }
+        },
+        "responses": {"200": {"description": "Access token issued"}}
+      }
+    }
+  }
+}
