@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0",
+  "info": {
+    "title": "GitHub CLI Agent",
+    "version": "1.0.0",
+    "description": "Secure access to GitHub APIs via OAuth device code flow for Custom GPT Actions"
+  },
+  "servers": [
+    {
+      "url": "https://github.com",
+      "description": "GitHub Official DFF auth endpoint"
+    }
+  ],
+  "paths": {
+    "/login/device/code": {
+      "post": {
+        "summary": "Initiates the GitHub device flow",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["client_id", "scope"],
+                "properties": {
+                  "client_id": {"type":"string"},
+                  "scope": {"type":"string"}
+                }
+              }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns device_code, verification_uri, user_code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["user_code", "verification_uri", "device_code"],
+                  "properties": {
+                    "user_code": {"type": "string"},
+                    "verification_uri": {"type": "string"},
+                    "device_code": {"type": "string"}
+                  }
+                }
+              }
+          }
+        }
+      }
+    },
+    "/login/oauth/access_token": {
+      "post": {
+        "summary": "Exchanges device_code for an access_token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["client_id", "device_code", "grant_type"],
+                "properties": {
+                  "client_id": {"type": "string"},
+                  "device_code": {"type": "string"},
+                  "grant_type": {"type": "string"}
+                }
+              }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gives an access_token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {"type": "string"},
+                    "token_type": {"type": "string"},
+                    "expires": {"type": "number"}
+                  }
+                }
+              }
+          }
+        }
+      }
+    }
+  }
+}
